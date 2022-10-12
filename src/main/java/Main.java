@@ -1,27 +1,23 @@
 import Shcool.Student;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main
 {
 
     public static void main(String[] args)
     {
-        Student student1 = new Student();
-        student1.writeTextToNotebook(2);
+
+        String binaryNumber = "0";
+        String hexadecimalNumber = ConvertorForBinaryToHexNumber.convertBinaryNumberIntoHexNumber(binaryNumber);
+        System.out.println(hexadecimalNumber);
+
 
     }
 
-    public static void say (int a)
-    {
-        System.out.println(a);
-    }
 
-    public static void say (double a)
-    {
-        System.out.println(a + a);
-        System.out.println(a);
-    }
-    public static void say (int a, int b)
-    {
-        System.out.println(a + b);
-    }
+
+
+
 }

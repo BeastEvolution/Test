@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConvertorForBinaryToHexNumber {
+public class NumericSystemConvertor {
 
     public static String  convertBinaryNumberIntoHexNumber(String binaryNumber)
     {
         String hexNumber = "";
 
-        List<Integer> ListOfBinaryNumberDigits = convertStringToListRepresentationOfBinaryNumber(binaryNumber);
+        List<Integer> ListOfBinaryNumberDigits = convertToListOfBinaryDigitMultipleOfFour(binaryNumber);
 
         List<List<Integer>> BinaryRepresentationOfHexDigit = getBinaryRepresentingOfHexDigits(ListOfBinaryNumberDigits);
 
@@ -19,26 +19,34 @@ public class ConvertorForBinaryToHexNumber {
         return hexNumber;
     }
 
-    private static List<Integer> convertStringToListRepresentationOfBinaryNumber(String binaryNumber)
+    /*
+        Turns a binary number record as a sting, into a list consisting of digits of that number.
+        Add zeros to the left side to make the number of elements a multiple of four.
+        To convert this number to hexadecimal system in the future.
+     */
+    private static List<Integer> convertToListOfBinaryDigitMultipleOfFour(String binaryNumber)
     {
-        List<Integer> listOfInteger = new ArrayList<>();
+        int initialCapacity = binaryNumber.length() + (4 - binaryNumber.length() % 4);
+        List<Integer> listOfBinaryDigits = new ArrayList<>(initialCapacity);
 
         char[] charArray = binaryNumber.toCharArray();
 
+        //Add zeros in begining of List to represent the hex digits correctly.
         if (charArray.length % 4 != 0)
         {
             int numberOfZerosToRepresentNumberCorrectly = 4 - (charArray.length % 4);
             for (int i = 0; i < numberOfZerosToRepresentNumberCorrectly; i++)
             {
-                listOfInteger.add(0);
+                listOfBinaryDigits.add(0);
             }
         }
+
         for (char character: charArray)
         {
-            listOfInteger.add(Character.digit(character,2));
+            listOfBinaryDigits.add(Character.digit(character,2));
         }
 
-        return listOfInteger;
+        return listOfBinaryDigits;
     }
 
     /*
@@ -47,7 +55,8 @@ public class ConvertorForBinaryToHexNumber {
      */
     private static List<List<Integer>> getBinaryRepresentingOfHexDigits(List<Integer> binaryNumber)
     {
-        List<List<Integer>> BinaryRepresentationOfHexDigit = new ArrayList<>();
+        int initialCapacity = binaryNumber.size() / 4;
+        List<List<Integer>> BinaryRepresentationOfHexDigit = new ArrayList<>(initialCapacity);
 
         for (int beginingIndexOfHexNumber = 0, endingIndexOfHexNumber = 4;
              endingIndexOfHexNumber <= binaryNumber.size();
@@ -65,19 +74,19 @@ public class ConvertorForBinaryToHexNumber {
 
         int numberInDecimalSystem = 0;
 
-        numberInDecimalSystem = convertBinaryNumberIntoDecimalNum(binaryNumber);
+        numberInDecimalSystem = convertBinaryNumberIntoDecimalDigit(binaryNumber);
 
         return arrayOfHexDigit[numberInDecimalSystem];
     }
 
-    private static int convertBinaryNumberIntoDecimalNum(List<Integer> binaryNumber)
+    private static int convertBinaryNumberIntoDecimalDigit(List<Integer> binaryRepresentationOfOneHexDigit)
     {
         int decimalNumber = 0;
 
-        int PositionOfCurrentDigitInList = binaryNumber.size() - 1;
-        for (int indexOfDigit = 0; indexOfDigit < binaryNumber.size(); indexOfDigit++)
+        int PositionOfCurrentDigitInList = binaryRepresentationOfOneHexDigit.size() - 1;
+        for (int indexOfDigit = 0; indexOfDigit < binaryRepresentationOfOneHexDigit.size(); indexOfDigit++)
         {
-            decimalNumber += binaryNumber.get(PositionOfCurrentDigitInList)
+            decimalNumber += binaryRepresentationOfOneHexDigit.get(PositionOfCurrentDigitInList)
                     * (int) Math.pow(2.0, (double) indexOfDigit);
 
             PositionOfCurrentDigitInList--;
